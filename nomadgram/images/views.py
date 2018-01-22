@@ -5,7 +5,6 @@ from . import models, serializers
 
 
 class Feed(APIView):
-
     def get(self, request, format=None):
 
         user = request.user
@@ -22,8 +21,7 @@ class Feed(APIView):
 
                 image_list.append(image)
 
-        sorted_list = sorted(
-            image_list, key=lambda image: image.created_at, reverse=True)
+        sorted_list = sorted(image_list, key=lambda image: image.created_at, reverse=True)
 
         serializer = serializers.ImageSerializer(sorted_list, many=True)
 
@@ -31,8 +29,41 @@ class Feed(APIView):
 
 
 class LikeImage(APIView):
-
     def post(self, request, image_id, format=None):
+
+        user = request.user
+
+        try:
+
+            found_image = models.Image.objects.get(id=image_id)
+
+        except models.Image.DoesNotExist:
+
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        try:
+
+            preexisiting_like = models.Like.objects.get(
+                creator=user,
+                image=found_image
+            )
+
+            return Response(status=status.HTTP_304_NOT_MODIFIED)
+
+        except models.Like.DoesNotExist:
+
+            new_like = models.Like.objects.create(
+                creator=user,
+                image=found_image
+            )
+
+            new_like.save()
+
+            return Response(status=status.HTTP_201_CREATED)
+
+
+class UnLikeImage(APIView):
+    def delete(self, request, image_id, format=None):
 
         user = request.user
 
@@ -57,18 +88,10 @@ class LikeImage(APIView):
 
         except models.Like.DoesNotExist:
 
-            new_like = models.Like.objects.create(
-                creator=user,
-                image=found_image
-            )
-
-            new_like.save()
-
-            return Response(status=status.HTTP_201_CREATED)
+            return Response(status=status.HTTP_304_NOT_MODIFIED)
 
 
 class CommentOnImage(APIView):
-
     def post(self, request, image_id, format=None):
 
         user = request.user
@@ -92,7 +115,6 @@ class CommentOnImage(APIView):
 
 
 class Comment(APIView):
-
     def delete(self, request, comment_id, format=None):
 
         user = request.user
