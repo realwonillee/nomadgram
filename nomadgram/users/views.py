@@ -16,9 +16,9 @@ class ExploreUsers(APIView):
 
 
 class FollowUser(APIView):
-    
+
     def post(self, request, user_id, format=None):
-        
+
         user = request.user
 
         try:
@@ -31,3 +31,35 @@ class FollowUser(APIView):
         user.save()
 
         return Response(status=status.HTTP_200_OK)
+
+
+class UnFollowUser(APIView):
+
+    def post(self, request, user_id, format=None):
+
+        user = request.user
+
+        try:
+            user_to_follow = models.User.objects.get(id=user_id)
+        except models.User.DoseNotExist:
+            return Response(satatus=status.HTTP_404_NOT_FOUND)
+
+        user.following.remove(user_to_follow)
+
+        user.save()
+
+        return Response(status=status.HTTP_200_OK)
+
+
+class UserProfile(APIView):
+
+    def get(self, request, username, format=None):
+
+        try:
+            found_user = models.User.objects.get(username=username)
+        except models.User.DoseNotExist:
+            return Response(satatus=status.HTTP_404_NOT_FOUND)
+
+        serializer = serializers.UserProfileSerializer(found_user)
+
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
