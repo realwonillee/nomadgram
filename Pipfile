@@ -31,6 +31,10 @@ pytest-django = "==3.1.2"
 pytest-sugar = "==0.9.0"
 "psycopg2" = "*"
 django-taggit = "*"
+djangorestframework = "*"
+markdown = "*"
+django-filter = "*"
+"psycopg2-binary" = "*"
 
 
 [dev-packages]
