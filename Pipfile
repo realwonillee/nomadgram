@@ -38,6 +38,7 @@ django-filter = "*"
 djangorestframework-jwt = "*"
 django-taggit-serializer = "*"
 django-rest-auth = "*"
+django-cors-headers = "*"
 
 
 [dev-packages]
