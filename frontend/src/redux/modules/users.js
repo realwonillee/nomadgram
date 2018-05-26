@@ -1,4 +1,4 @@
-// imports
+// import
 
 // actions
 
@@ -23,6 +23,6 @@ function reducer(state = initialState, action) {
 
 // exports
 
-// reducer export
+// reducer exports
 
 export default reducer;
