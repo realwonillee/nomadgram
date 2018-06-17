@@ -10,7 +10,17 @@ class Container extends Component {
   };
   render() {
     const { email, full_name, username, password } = this.state;
-    return <SignupForm handleInputChange={this._handleInputChange} handleSubmit={this._handleSubmit} emailValue={email} full_nameValue={full_name} usernameValue={username} passwordValue={password} />;
+    return (
+      <SignupForm
+        handleInputChange={this._handleInputChange}
+        handleSubmit={this._handleSubmit}
+        handleFacebookLogin={this._handleFacebookLogin}
+        emailValue={email}
+        full_nameValue={full_name}
+        usernameValue={username}
+        passwordValue={password}
+      />
+    );
   }
   _handleInputChange = event => {
     const {
@@ -22,8 +32,9 @@ class Container extends Component {
   };
   _handleSubmit = event => {
     event.preventDefault();
-    console.log(this.state);
-    // redux will be here
+  };
+  _handleFacebookLogin = response => {
+    console.log(response);
   };
 }
 
