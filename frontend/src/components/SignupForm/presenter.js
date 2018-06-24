@@ -1,17 +1,24 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Ionicon from "react-ionicons";
 import FacebookLogin from "react-facebook-login";
 import formStyles from "shared/formStyles.scss";
 
 const SignupForm = (props, context) => (
   <div className={formStyles.formComponent}>
     <h3 className={formStyles.signupHeader}>{context.t("Sign up to see photos and videos from your friends.")}</h3>
-    <FacebookLogin appId="242005536535409" autoLoad={true} fields="name,email,picture" callback={props.handleFacebookLogin} cssClass={formStyles.button} icon="fa-facebook-official" />
+    <FacebookLogin
+      appId="242005536535409"
+      autoLoad={false}
+      fields="name,email,picture"
+      callback={props.handleFacebookLogin}
+      cssClass={formStyles.button}
+      icon="fa-facebook-official"
+      textButton={context.t("Login with Facebook")}
+    />
     <span className={formStyles.divider}>{context.t("or")}</span>
     <form className={formStyles.form} onSubmit={props.handleSubmit}>
       <input type="email" placeholder={context.t("Email")} className={formStyles.textInput} onChange={props.handleInputChange} name="email" value={props.emailValue} />
-      <input type="text" placeholder={context.t("Full Name")} className={formStyles.textInput} onChange={props.handleInputChange} name="full_name" value={props.full_nameValue} />
+      <input type="text" placeholder={context.t("Full Name")} className={formStyles.textInput} onChange={props.handleInputChange} name="name" value={props.nameValue} />
       <input type="username" placeholder={context.t("Username")} className={formStyles.textInput} onChange={props.handleInputChange} name="username" value={props.usernameValue} />
       <input type="password" placeholder={context.t("Password")} className={formStyles.textInput} onChange={props.handleInputChange} name="password" value={props.passwordValue} />
       <input type="submit" value={context.t("Sign up")} className={formStyles.button} />
@@ -24,7 +31,7 @@ const SignupForm = (props, context) => (
 
 SignupForm.propsTypes = {
   emailValue: PropTypes.string.isRequired,
-  full_nameValue: PropTypes.string.isRequired,
+  nameValue: PropTypes.string.isRequired,
   usernameValue: PropTypes.string.isRequired,
   passwordValue: PropTypes.string.isRequired,
   handleInputChange: PropTypes.func.isRequired,

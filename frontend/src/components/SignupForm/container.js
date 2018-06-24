@@ -1,22 +1,27 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import SignupForm from "./presenter";
+import withFacebookLogin from "components/Warp/withFacebookLogin";
 
 class Container extends Component {
   state = {
     email: "",
-    full_name: "",
+    name: "",
     username: "",
     password: ""
   };
+  static propTypes = {
+    createAccount: PropTypes.func.isRequired
+  };
   render() {
-    const { email, full_name, username, password } = this.state;
+    const { email, name, username, password } = this.state;
     return (
       <SignupForm
         handleInputChange={this._handleInputChange}
         handleSubmit={this._handleSubmit}
         handleFacebookLogin={this._handleFacebookLogin}
         emailValue={email}
-        full_nameValue={full_name}
+        nameValue={name}
         usernameValue={username}
         passwordValue={password}
       />
@@ -31,11 +36,15 @@ class Container extends Component {
     });
   };
   _handleSubmit = event => {
+    const { email, name, password, username } = this.state;
+    const { createAccount } = this.props;
     event.preventDefault();
+    createAccount(username, password, email, name);
   };
   _handleFacebookLogin = response => {
-    console.log(response);
+    const { facebookLogin } = this.props;
+    facebookLogin(response.accessToken);
   };
 }
 
-export default Container;
+export default withFacebookLogin(Container);

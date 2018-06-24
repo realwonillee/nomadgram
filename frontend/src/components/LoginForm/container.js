@@ -1,10 +1,15 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import LoginForm from "./presenter";
+import withFacebookLogin from "components/Warp/withFacebookLogin";
 
 class Container extends Component {
   state = {
     username: "",
     password: ""
+  };
+  static propTypes = {
+    usernameLogin: PropTypes.func.isRequired
   };
   render() {
     const { username, password } = this.state;
@@ -21,11 +26,15 @@ class Container extends Component {
     });
   };
   _handleSubmit = event => {
+    const { usernameLogin } = this.props;
+    const { username, password } = this.state;
     event.preventDefault();
+    usernameLogin(username, password);
   };
   _handleFacebookLogin = response => {
-    console.log(response);
+    const { facebookLogin } = this.props;
+    facebookLogin(response.accessToken);
   };
 }
 
-export default Container;
+export default withFacebookLogin(Container);
