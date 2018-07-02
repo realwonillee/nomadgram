@@ -8,7 +8,9 @@ const Navigation = (props, context) => (
   <div className={styles.navigation}>
     <div className={styles.inner}>
       <div className={styles.column}>
-        <img src={require("images/logo.png")} className={styles.logo} alt={context.t("Logo")} />
+        <Link to="/">
+          <img src={require("images/logo.png")} className={styles.logo} alt={context.t("Logo")} />
+        </Link>
       </div>
       <div className={styles.column}>
         <input type="text" placeholder={context.t("Search")} className={styles.searchInput} />
