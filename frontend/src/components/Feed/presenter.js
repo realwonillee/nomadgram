@@ -20,8 +20,9 @@ const LoadingFeed = props => (
 
 const RenderFeed = props => <div className={styles.feed}>{props.feed.map(photo => <FeedPhoto {...photo} key={photo.id} />)}</div>;
 
-Feed.prototype = {
-  loading: PropTypes.bool.isRequired
+Feed.propTypes = {
+  loading: PropTypes.bool.isRequired,
+  feed: PropTypes.array
 };
 
 export default Feed;
