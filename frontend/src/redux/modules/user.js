@@ -147,7 +147,8 @@ function followUser(userId) {
     fetch(`users/${userId}/follow/`, {
       method: "POST",
       headers: {
-        Authorization: `JWT ${token}`
+        Authorization: `JWT ${token}`,
+        "Content-Type": "application/json"
       }
     }).then(response => {
       if (response.status === 401) {
@@ -168,7 +169,8 @@ function unfollowUser(userId) {
     fetch(`users/${userId}/unfollow/`, {
       method: "POST",
       headers: {
-        Authorization: `JWT ${token}`
+        Authorization: `JWT ${token}`,
+        "Content-Type": "application/json"
       }
     }).then(response => {
       if (response.status === 401) {
@@ -177,6 +179,27 @@ function unfollowUser(userId) {
         dispatch(setFollowUser(userId));
       }
     });
+  };
+}
+
+function getExplore() {
+  return (dispatch, getState) => {
+    const {
+      user: { token }
+    } = getState();
+    fetch(`users/explore/`, {
+      method: "GET",
+      headers: {
+        Authorization: `JWT ${token}`
+      }
+    })
+      .then(response => {
+        if (response.status === 401) {
+          dispatch(logout());
+        }
+        return response.json();
+      })
+      .then(json => dispatch(setUserList(json)));
   };
 }
 
@@ -266,7 +289,8 @@ const actionCreators = {
   logout,
   getUserLikes,
   followUser,
-  unfollowUser
+  unfollowUser,
+  getExplore
 };
 
 export { actionCreators };
