@@ -32,7 +32,7 @@ class Image(TimeStampedModel):
 
     @property
     def comment_count(self):
-        return self.commets.all().count()
+        return self.comments.all().count()
 
     @property
     def natural_time(self):
